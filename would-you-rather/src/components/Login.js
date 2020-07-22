@@ -11,6 +11,7 @@ class Login extends Component {
         // send to store instead
         this.setState({authUser: e.value})
         this.setState({selected: e})
+        // console.log(e.label)
     }
     updateState(element) {
         this.setState({authUser: element})
@@ -32,6 +33,18 @@ class Login extends Component {
                     onChange={(e) => {this.handleChange(e)}}
                     value={this.state.selected}
                     options={optionsArray}/>
+                <div className='login-success'> 
+                    {authUser !== '' && 
+                        <div> 
+                            <h3>
+                                Welcome, {authUser.charAt(0).toUpperCase() +
+                                authUser.slice(1)}!
+                            </h3>
+                            <button>
+                                To Home Page
+                            </button>
+                        </div>}
+                </div>
             </div>
           );
     }
