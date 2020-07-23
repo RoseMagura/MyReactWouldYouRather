@@ -4,15 +4,12 @@ import { setAuthedUser } from './authedUser'
 import { receiveQuestions } from './questions'
 import { receiveUsers } from './users'
 
-// Todo: replace with value from logging in
-const AUTHED_ID = 'sarah' 
 
 export function handleUserData () {
     return (dispatch) => {
         return _getUsers()
-            .then(({ users }) => {
+            .then((users) => {
                 dispatch(receiveUsers(users))
-                dispatch(setAuthedUser(AUTHED_ID))
             })
     }
 }
@@ -20,8 +17,14 @@ export function handleUserData () {
 export function handleQuestionData () {
     return (dispatch) => {
         return _getQuestions()
-            .then(({ questions }) => {
+            .then((questions) => {
                 dispatch(receiveQuestions(questions))
             })
+    }
+}
+
+export function handleInitialUser () {
+    return (dispatch) => {
+        dispatch(setAuthedUser('initial value'))
     }
 }

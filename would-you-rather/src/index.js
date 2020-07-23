@@ -11,6 +11,7 @@ import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 import reducer from './reducers'; 
 import middleware from './middleware';
+import Homepage from './components/Homepage';
 
 const store = createStore(reducer, middleware)
 

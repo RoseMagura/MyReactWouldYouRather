@@ -1,28 +1,38 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import User from './User';
+import { setAuthedUser } from '../actions/authedUser';
+import { handleUserData, handleQuestionData, 
+         handleInitialUser } from '../actions/shared';
 import Select from 'react-select';
+import { Link } from 'react-router-dom';
 
 class Login extends Component {
+    componentDidMount () {
+        // console.log('IM RUNNING')
+        this.props.dispatch(handleUserData())
+        this.props.dispatch(handleQuestionData())
+        this.props.dispatch(handleInitialUser())
+    }
     state = {
-        authUser: '',
         selected: ''
     }
     handleChange = (e) => {
-        // send to store instead
-        this.setState({authUser: e.value})
+        const { dispatch } = this.props
+        dispatch(setAuthedUser(e.value))
         this.setState({selected: e})
-        // console.log(e.label)
+        window.location.href=`http://localhost:3000/success/user?${e.value}`
     }
     updateState(element) {
         this.setState({authUser: element})
     }
     render(){
-        const { allUsers } = this.props.users
-        const authUser = this.state.authUser
-        // Replace later with information from store
+        console.log('PROPS: ', this.props)
+        const authUser = this.props.authedUser
+        // console.log(authUser)
         const optionsArray = []
-        this.props.users.forEach(element => {
-            optionsArray.push({ value: element.toLowerCase(),
+        this.props.usersIds.forEach(element => {
+            optionsArray.push({ value: element,
                                 label: element})
         })
         return (
@@ -33,21 +43,29 @@ class Login extends Component {
                     onChange={(e) => {this.handleChange(e)}}
                     value={this.state.selected}
                     options={optionsArray}/>
-                <div className='login-success'> 
-                    {authUser !== '' && 
-                        <div> 
-                            <h3>
-                                Welcome, {authUser.charAt(0).toUpperCase() +
-                                authUser.slice(1)}!
-                            </h3>
-                            <button>
-                                To Home Page
-                            </button>
-                        </div>}
-                </div>
-            </div>
+            {/* <div className='login-success'> 
+                {authUser !== 'initial value' && 
+                    <div> 
+                        <h3>
+                            Welcome, {authUser}!
+                        </h3>
+                        <Link to="/success">
+                        <button>
+                            To Home Page
+                        </button>
+                        </Link>
+                    </div>}
+            </div>         */}
+                        </div>
           );
     }
 }
 
-export default Login;
+function mapStateToProps ({ users, authedUser }) {
+    return {
+      usersIds: Object.keys(users),
+      authedUser
+    }
+  }
+  
+  export default connect(mapStateToProps)(Login) 
