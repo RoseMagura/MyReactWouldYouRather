@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import User from './User';
+// import User from './User';
 import { setAuthedUser } from '../actions/authedUser';
 import { handleUserData, handleQuestionData, 
          handleInitialUser } from '../actions/shared';
 import Select from 'react-select';
-import { Link } from 'react-router-dom';
 
 class Login extends Component {
     componentDidMount () {
@@ -21,7 +20,8 @@ class Login extends Component {
         const { dispatch } = this.props
         dispatch(setAuthedUser(e.value))
         this.setState({selected: e})
-        window.location.href=`http://localhost:3000/success/user?${e.value}`
+        window.location.href=
+            `http://localhost:3000/success/user?${e.value}`
     }
     updateState(element) {
         this.setState({authUser: element})
@@ -43,20 +43,7 @@ class Login extends Component {
                     onChange={(e) => {this.handleChange(e)}}
                     value={this.state.selected}
                     options={optionsArray}/>
-            {/* <div className='login-success'> 
-                {authUser !== 'initial value' && 
-                    <div> 
-                        <h3>
-                            Welcome, {authUser}!
-                        </h3>
-                        <Link to="/success">
-                        <button>
-                            To Home Page
-                        </button>
-                        </Link>
-                    </div>}
-            </div>         */}
-                        </div>
+            </div>
           );
     }
 }

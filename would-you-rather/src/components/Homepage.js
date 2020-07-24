@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { handleUserData, handleQuestionData, 
          handleInitialUser } from '../actions/shared';
-import { setAuthedUser } from '../actions/authedUser';         
-import Question from './Question'
+import { setAuthedUser } from '../actions/authedUser';    
+import QuestionList from './QuestionList';     
 
 class Homepage extends Component {
     componentDidMount() {
@@ -12,39 +12,25 @@ class Homepage extends Component {
         //Problem here?
         this.props.dispatch(setAuthedUser(this.props.location.search.slice(1)))
     }
-    revealAnswered () {
-        console.log('REVEALING')
-    }
 
     render(){
 
         const items =  this.props.questionsIds
         const users = this.props.users
         const authedUser = this.props.authedUser
-        const answered =  users[authedUser] !== undefined && 
-            users[authedUser]['answers']     
+        let answered = []
+        let unanswered = []        
+        users[authedUser] !== undefined && items.forEach(element => 
+            element in users[authedUser]['answers']
+                ? answered.push(element) 
+                : unanswered.push(element)
+            )                
     return (
             <div>
                 <h1>Welcome, {authedUser}!</h1>
                Homepage
-               <h3>Unaswered Questions</h3>
-                    <ul className='homepage-list'>
-                        {this.props.questionsIds.map((id) => (
-                            !(id in answered) && 
-                            <li key={id}>
-                                <Question id={id} />
-                            </li>
-                        ))}
-                    </ul>    
-               <button onClick={this.revealAnswered}>Show Answered Questions</button>
-               <ul style={{display: 'none'}}className='answered-list'>
-                        {this.props.questionsIds.map((id) => (
-                            id in answered && 
-                            <li key={id}>
-                                <Question id={id} />
-                            </li>
-                        ))}
-                    </ul>    
+                <QuestionList info={[unanswered, items, 'Unanswered']}/>
+                <QuestionList info={[answered, items, 'Answered']}/>
             </div>
           );
     }
