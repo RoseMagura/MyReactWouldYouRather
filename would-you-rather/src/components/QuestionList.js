@@ -1,31 +1,32 @@
 import React, { Component } from 'react';
-import Question from './Question'
+import Question from './Question';
+import '../QuestionListStyles.css';
 
 class QuestionList extends React.Component {
     state = {
-        open: false
+        open: this.props.info[1] === 'Unanswered' ? 'active' : 'inactive'
     }
-    // this.togglePanel = this.toggelPanel.bind(this);
     togglePanel(e) {
-        this.setState({open: !this.state.open})
+        this.setState(prevState => prevState === 'active' 
+        ? this.setState({open: 'inactive'})
+        : this.setState({open: 'active'})
+        )
     }
 
     render() {
-        const which = this.props.info[0]
-        console.log(which)
-        const questionsIds = this.props.info[1]
-        const type = this.props.info[2]
+        const questions = this.props.info[0]
+        const type = this.props.info[1]
+        // console.log(this.state)
         return(
             <div>
-                <h3>{type} Questions</h3>
-                <ul className='homepage-list'>
-                    {which.map((id) => (
-                            // !(id in which) && 
+                            <ul className='content'>
+                    {questions.map((id) => (
                         <li key={id}>
                             <Question id={id} />
                         </li>
                         ))}
                 </ul>   
+               
             </div>
         )
     }

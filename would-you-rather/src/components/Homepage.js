@@ -6,6 +6,13 @@ import { setAuthedUser } from '../actions/authedUser';
 import QuestionList from './QuestionList';     
 
 class Homepage extends Component {
+    state = {
+       active: 'uHeading' //default
+    }
+    toggleHeader (e, type) {
+        e.preventDefault()
+        this.setState({active: type})
+    }
     componentDidMount() {
         this.props.dispatch(handleUserData())
         this.props.dispatch(handleQuestionData())
@@ -28,9 +35,21 @@ class Homepage extends Component {
     return (
             <div>
                 <h1>Welcome, {authedUser}!</h1>
-               Homepage
-                <QuestionList info={[unanswered, items, 'Unanswered']}/>
-                <QuestionList info={[answered, items, 'Answered']}/>
+                <h2 
+                    className={this.state.active === 'uHeading' 
+                        ? 'active' : ''}
+                    onClick={(e)=>{this.toggleHeader(e,'uHeading')}}>
+                    Unanswered Questions</h2>
+                <h2 
+                    className={this.state.active === 'aHeading' 
+                        ? 'active' : ''}
+                    onClick={(e)=>{this.toggleHeader(e,'aHeading')}}>
+                    Answered Questions</h2>
+               {this.state.active === 'uHeading'
+                ? <QuestionList info={[unanswered, 'Unanswered']}/>
+                : <QuestionList info={[answered, 'Answered']}/>
+                }
+                
             </div>
           );
     }
@@ -45,5 +64,4 @@ function mapStateToProps ({ questions, users, authedUser }) {
     }
   }
   
-  //does homepage need to be connected to the store? 
-  export default connect(mapStateToProps)(Homepage);
+export default connect(mapStateToProps)(Homepage);
