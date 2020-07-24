@@ -14,6 +14,7 @@ class Question extends Component {
   }
   render() {
     const { question } = this.props
+    // console.log(question)
 
     if (question === null){
         return <p>This question doesn't exist</p>
@@ -38,8 +39,8 @@ class Question extends Component {
                         <div>{formatDate(timestamp)}</div>
                         <div>
                             {optionOne.text} 
-                            Votes: {optionTwo.votes.length > 0 
-                                ? optionTwo.votes.map((user) => (
+                            Votes: {optionOne.votes.length > 0 
+                                ? optionOne.votes.map((user) => (
                                     <p key={user}> {user} </p>
                                 ))
                                 : '0'}
