@@ -1,7 +1,3 @@
-// import { _getQuestions, formatQuestion, 
-//         _saveQuestion, _saveQuestionAnswer,
-//         generateUID } from '../utils/_DATA.js'
-
 export const RECEIVE_QUESTIONS = 'RECEIVE_QUESTIONS'
 export const ADD_QUESTION = 'ADD_QUESTION'
 

@@ -16,10 +16,9 @@ class QuestionList extends React.Component {
     render() {
         const questions = this.props.info[0]
         const type = this.props.info[1]
-        // console.log(this.state)
         return(
             <div>
-                            <ul className='content'>
+                <ul className='content'>
                     {questions.map((id) => (
                         <li key={id}>
                             <Question id={id} />

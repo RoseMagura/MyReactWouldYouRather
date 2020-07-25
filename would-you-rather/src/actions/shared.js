@@ -1,6 +1,6 @@
 import { _getUsers } from '../utils/_DATA.js'
 import { _getQuestions, formatQuestion, _saveQuestion } from '../utils/_DATA.js'
-import { setAuthedUser, getAuthedUser } from './authedUser'
+import { setAuthedUser } from './authedUser'
 import { receiveQuestions } from './questions'
 import { receiveUsers } from './users'
 

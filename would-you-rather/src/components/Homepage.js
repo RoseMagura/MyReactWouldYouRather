@@ -14,15 +14,7 @@ class Homepage extends Component {
         e.preventDefault()
         this.setState({active: type})
     }
-    componentDidMount() {
-        // this.props.dispatch(handleUserData())
-        // this.props.dispatch(handleQuestionData())
-        // Get user from store
-        // this.props.dispatch(getAgain)       
-    }
-
     render(){
-        console.log('PROPS: ', this.props)
         const items =  this.props.questionsIds
         const users = this.props.users
         const authedUser = this.props.authedUser
@@ -32,7 +24,7 @@ class Homepage extends Component {
             element in users[authedUser]['answers']
                 ? answered.push(element) 
                 : unanswered.push(element)
-            )                
+            )                    
     return (
             <div>
                 <Nav />
@@ -57,14 +49,11 @@ class Homepage extends Component {
 }
 
 function mapStateToProps ({questions, users, authedUser}) {
-    // console.log('STORE', store)
-    // const { questionsauthedUser } = store
-    // return { authedUser }
     return {
-      questionsIds: Object.keys(questions),
-      questions,
       users,
-      authedUser
+      authedUser,
+      questionsIds: Object.keys(questions)
+        .sort((a, b) => questions[b].timestamp - questions[a].timestamp)
     }
   }
   

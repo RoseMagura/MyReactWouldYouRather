@@ -1,12 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-// import User from './User';
-import { setAuthedUser } from '../actions/authedUser';
-import { handleUserData, handleQuestionData, 
-         setLoggedInUser, handleInitialUser } from '../actions/shared';
+import { setLoggedInUser } from '../actions/shared';
 import Select from 'react-select';
-import Homepage from './Homepage';
-// import { Router, Route, Link } from 'react-router-dom';
+import Nav from './Nav';
 
 class Login extends Component {
 
@@ -30,6 +26,7 @@ class Login extends Component {
         })
         return (
             <div>
+                <Nav />
                 <h1> Select User to Login: </h1>
                 <Select 
                     name='user-field'
