@@ -1,6 +1,6 @@
 import { _getUsers } from '../utils/_DATA.js'
 import { _getQuestions } from '../utils/_DATA.js'
-import { setAuthedUser } from './authedUser'
+import { setAuthedUser, getAuthedUser } from './authedUser'
 import { receiveQuestions } from './questions'
 import { receiveUsers } from './users'
 
@@ -26,5 +26,18 @@ export function handleQuestionData () {
 export function handleInitialUser () {
     return (dispatch) => {
         dispatch(setAuthedUser('initial value'))
+    }
+}
+
+export function setLoggedInUser (value) {
+    return (dispatch) => {
+        dispatch(setAuthedUser(value))
+        // console.log('set authed user as ', value)
+    }
+}
+
+export function getAgain () {
+    return (dispatch) => {
+        dispatch(getAuthedUser)
     }
 }

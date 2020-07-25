@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Nav from './Nav';
 
 class AddQuestion extends Component {
 
@@ -6,6 +7,7 @@ class AddQuestion extends Component {
 
     return (
             <div>
+                <Nav />
                 AddQuestion
             </div>
           );

@@ -8,8 +8,9 @@ export function setAuthedUser (id) {
     }
 }
 
-export function getAuthedUser (){
+export function getAuthedUser (name){
     return {
-        type: GET_AUTHED_USER,
+        type: SET_AUTHED_USER,
+        name
     }
 }
