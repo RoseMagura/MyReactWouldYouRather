@@ -12,12 +12,9 @@ import { handleUserData, handleQuestionData,
 
 class App extends Component {
     componentDidMount () {
-        // console.log('IM RUNNING')
         this.props.dispatch(handleUserData())
         this.props.dispatch(handleQuestionData())
         this.props.dispatch(handleInitialUser())
-        //testing to see if this value persists
-        // this.props.dispatch(setLoggedInUser('bob'))
     }
     render(){
         return (
