@@ -4,34 +4,42 @@ import Nav from './Nav';
 
 class Leaderboard extends Component {
     render(){
-        // console.log(this.props)
-        const { usersArray, authedUser, users } = this.props
-        // console.log('USERS: ', usersArray)
+        const { usersArray, users } = this.props
 
         let answersEach = {}
+        let questionsEach = {}
+        let totalEach = {}
         users['sarahedo'] !== undefined &&
             usersArray.forEach(user => {
                 answersEach[user] = Object.keys(users[user].answers).length
-            })
-
-        let questionsEach = {}
-        users['sarahedo'] !== undefined &&
-            usersArray.forEach(user => {
                 questionsEach[user] = Object.keys(users[user].questions).length
-                })    
-        
-        usersArray.forEach(element => console.log(element, 
-            answersEach[element], questionsEach[element]))        
-        // console.log('Authed User: ', authedUser)
+                totalEach[user] = answersEach[user] + questionsEach[user]
+            })
+        let sortedScores = Object.values(totalEach).sort((a, b) => 
+            b - a )
+        let sortedUsers = []    
+        sortedScores.forEach(entry => {
+            sortedUsers.push(Object.keys(totalEach).find
+                (key => totalEach[key] === entry))
+        })     
         return(
             <div>
                 <Nav />
+                <h1>Everyone's Scores!</h1>
                 <ul className='users-list'>
-                    {usersArray.map((u) => (
+                    {sortedUsers.map((u) => (
                         <li key={u}>
-                            {u}
-                            {Object.keys(users[`${u}`].answers).length} answers
-                            {Object.keys(users[`${u}`].questions).length} questions 
+                            <img
+                                width='100'
+                                height='100' 
+                                src={users[u].avatarURL}
+                                alt={`Avatar of ${users[u].name}`}
+                                className='avatar'
+                                /><br/>        
+                            {u}<br/>
+                            {Object.keys(users[`${u}`].answers).length} answers <br/>
+                            {Object.keys(users[`${u}`].questions).length} questions <br/>
+                            Score: {totalEach[`${u}`]} 
                         </li>
                     ))}
                 </ul>
@@ -40,11 +48,8 @@ class Leaderboard extends Component {
     }}
 function mapStateToProps ({ authedUser, users }) {
         return {
-          authedUser, 
           users,
-          //want userid, number of answers, number of questions
           usersArray: Object.keys(users)
-            // .sort((a, b) => users[a].answers.length - users[b].answers.length)
         }
       }
 export default connect(mapStateToProps)(Leaderboard)
