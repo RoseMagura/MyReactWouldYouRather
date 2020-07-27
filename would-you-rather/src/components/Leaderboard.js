@@ -25,7 +25,7 @@ class Leaderboard extends Component {
         return(
             <div>
                 <Nav />
-                <h1>Everyone's Scores!</h1>
+                <h1>Everyone's Scores</h1>
                 <ul className='users-list'>
                     {sortedUsers.map((u) => (
                         <li key={u}>

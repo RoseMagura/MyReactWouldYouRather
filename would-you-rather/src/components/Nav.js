@@ -9,12 +9,12 @@ class Nav extends Component {
             <nav className='nav'>
                 <ul>
                     <li>
-                        <NavLink to='/success' exact activeClassName='active' >
+                        <NavLink to='/' exact activeClassName='active' >
                             Home
                         </NavLink>
                     </li>
                     <li>
-                        <NavLink to='/new' exact activeClassName='active' >
+                        <NavLink to='/add' exact activeClassName='active' >
                             Add New Question
                         </NavLink>
                     </li>
@@ -24,15 +24,18 @@ class Nav extends Component {
                         </NavLink>
                     </li>
                     {this.props.authedUser !== null ? 
-                    <li>
-                        Welcome, {this.props.authedUser}!
-                    </li> 
-                    : null}
-                    <li>
-                        <NavLink to='/' exact activeClassName='active' >
+                    <div>
+                        <li>
+                            Welcome, {this.props.authedUser}!
+                        </li> 
+                        <li>
+                        <NavLink to='/login' exact activeClassName='active' >
                             Logout
                         </NavLink>
-                    </li>
+                        </li>
+                    </div>
+                    : null}
+
                 </ul>
             </nav>
         )

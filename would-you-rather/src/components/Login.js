@@ -12,7 +12,7 @@ class Login extends Component {
     handleLogin = (e) => {
         const { dispatch, history } = this.props
         dispatch(setLoggedInUser(this.state.selected.value))
-        history.push('/success')
+        history.push('/')
     }
     updateState(element) {
         this.setState({authUser: element})
