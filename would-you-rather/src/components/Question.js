@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { formatQuestion, formatDate } from '../utils/helpers';
+import { format , formatDate } from '../utils/helpers';
 import { Link, withRouter} from 'react-router-dom'
 // import Nav from './Nav'
 
@@ -66,7 +66,7 @@ function mapStateToProps ({ authedUser, users, questions }, { id }) {
         authedUser,
         loading: questions === null,
         question: question
-            ? formatQuestion(question, users[question.author], authedUser)
+            ? format(question, users[question.author], authedUser)
             : null
     }
   }

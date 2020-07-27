@@ -1,40 +1,43 @@
 import React, { Component } from 'react';
 import Nav from './Nav';
-// import { connect } from 'react-redux';
-import { handleAddQuestion } from '../actions/questions'
+import { connect } from 'react-redux';
+import { addQuestion } from '../actions/questions';
+import { formatQuestion } from '../utils/_DATA.js';
 import { Redirect } from 'react-router-dom';
 
 class AddQuestion extends Component {
     state = {
-        text: '',
-        toHome: false
+        optionOneText: '',
+        optionTwoText: '',
+        toHome: false, 
+        disabled: true
     }
     handleChange = (e, type) => {
         const text = e.target.value
-
-        this.setState(() => ({
-            type
-        }))
+        this.setState({
+            [type]: text
+        })
     }
     handleSubmit = (e) => {
         e.preventDefault()
 
-        const { optionOne, optionTwo } = this.state
-        const { dispatch, id } = this.props
-
-        dispatch(handleAddQuestion(optionOne, optionTwo, id))
-
+        const { optionOneText, optionTwoText } = this.state
+        const { dispatch, id, authedUser } = this.props
+        const question = formatQuestion({optionOneText, optionTwoText,
+            author: authedUser})
+        
+        dispatch(addQuestion(question))    
+            
         this.setState(() => ({
-            optionOne: '',
-            optionTwo: '',
+            optionOneText: '',
+            optionTwoText: '',
             toHome: id ? false : true
         }))
     }
     render(){
-        const { optionOne, optionTwo, toHome } = this.state
-
+        const { optionOneText, optionTwoText, toHome } = this.state
         if (toHome === true) {
-            return <Redirect to='/success' />
+            return <Redirect to='/' />
         }
     return (
             <div>
@@ -44,16 +47,20 @@ class AddQuestion extends Component {
                 <form className='new-question' onSubmit={this.handleSubmit}>
                     <textarea
                         placeholder="Option One" 
-                        value={optionOne}
-                        onChange={(e)=>this.handleChange(e,'optionOne')}
+                        value={optionOneText}
+                        onChange={(e)=>this.handleChange(e, 'optionOneText')}
                         className='textarea'/>
                     <h4>OR</h4>    
                     <textarea 
-                        placeholder="Option Two"/>
+                        placeholder="Option Two"
+                        value={optionTwoText}
+                        onChange={(e)=>this.handleChange(e, 'optionTwoText')}
+                        />
                     <button
                         className='btn'
                         type='submit'
-                        disabled={optionOne || optionTwo === ''}>
+                        disabled={!optionOneText || !optionTwoText}
+                        >
                         Submit
                     </button>
                 </form>
@@ -62,4 +69,10 @@ class AddQuestion extends Component {
     }
 }
 
-export default AddQuestion;
+function mapStateToProps ({ authedUser}) {
+    return {
+        authedUser,
+    }
+  }
+  
+  export default connect(mapStateToProps)(AddQuestion)

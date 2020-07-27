@@ -23,37 +23,31 @@ class App extends Component {
         return (
             <div>
                 <Router>
-                        {<div>
-                            <Route path='/login' exact component={Login} />
-                            <PrivateRoute component={Homepage} 
-                                authedUser={authedUser}
-                                path="/" exact />
-                            <PrivateRoute component={AddQuestion} 
-                                authedUser={authedUser}
-                                path="/add" exact />
-                            <PrivateRoute component={Leaderboard} 
-                                authedUser={authedUser}
-                                path="/leaderboard" exact />
+                        {this.props.loading === true 
+                            ? <div>Still loading</div>
+                            : <div>
+                                <Route path='/login' exact component={Login} />
+                                <PrivateRoute component={Homepage} 
+                                    authedUser={authedUser}
+                                    path="/" exact />
+                                <PrivateRoute component={AddQuestion} 
+                                    authedUser={authedUser}
+                                    path="/add" exact />
+                                <PrivateRoute component={Leaderboard} 
+                                    authedUser={authedUser}
+                                    path="/leaderboard" exact />
 
-                            {/* <Route path='/add' exact component={AddQuestion} />
-                            <Route path='/leaderboard' exact component={Leaderboard} /> */}
-                        </div>}
-                    {/* {this.props.loading === true 
-                        ? <div>Still loading</div>
-                        : <div>
-                            <Route path='/' exact component={Login} />
-                            <Route path='/success' component={Homepage} />
-                            <Route path='/new' component={AddQuestion} />
-                        </div>} */}
+
+                            </div>}
                 </Router>               
             </div>
           );
     }
 }
 
-function mapStateToProps ({ authedUser }) {
+function mapStateToProps ({ users, authedUser }) {
     return {
-        loading: authedUser === null,
+        loading: users === null,
         authedUser
     }
 }
