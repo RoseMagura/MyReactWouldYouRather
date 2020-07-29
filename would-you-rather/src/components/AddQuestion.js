@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Nav from './Nav';
 import { connect } from 'react-redux';
 import { addQuestion } from '../actions/questions';
+import { addQuestionToUser } from '../actions/users';
 import { formatQuestion } from '../utils/_DATA.js';
 import { Redirect } from 'react-router-dom';
 
@@ -22,16 +23,19 @@ class AddQuestion extends Component {
         e.preventDefault()
 
         const { optionOneText, optionTwoText } = this.state
-        const { dispatch, id, authedUser } = this.props
+        const { dispatch, id, authedUser, users } = this.props
         const question = formatQuestion({optionOneText, optionTwoText,
             author: authedUser})
         
         dispatch(addQuestion(question))    
+        // console.log('what is the value of id?', question['id'])
+        const qid = question['id']
+        dispatch(addQuestionToUser({authedUser, users, qid}))
             
         this.setState(() => ({
             optionOneText: '',
             optionTwoText: '',
-            // toHome: id ? false : true
+            toHome: id ? false : true
         }))
     }
     render(){
@@ -69,9 +73,10 @@ class AddQuestion extends Component {
     }
 }
 
-function mapStateToProps ({ authedUser}) {
+function mapStateToProps ({ authedUser, users}) {
     return {
         authedUser,
+        users
     }
   }
   

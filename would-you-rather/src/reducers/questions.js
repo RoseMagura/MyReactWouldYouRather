@@ -16,8 +16,7 @@ export default function questions (state = {}, action) {
                     ...action.question
                 }
             }    
-        case SAVE_ANSWER_TO_QUESTION :   
-            console.log(action.questions[action.qid][action.answer]['votes'])
+        case SAVE_ANSWER_TO_QUESTION :  
             return {
                 ...state,
                 [action.qid] : {

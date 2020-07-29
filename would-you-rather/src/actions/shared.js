@@ -46,14 +46,12 @@ export function handleAddQuestion (question) {
     }
 }
 
-export function handleSaveAnswer (authedUser,qid, answer, users, 
+export function handleSaveAnswer (authedUser, qid, answer, users, 
     questions) {
     return (dispatch) => {
-        const info = {authedUser, qid, answer}
-        // console.log(info, 'sending to back end')
+        const info = {authedUser, qid, answer, questions}
         return _saveQuestionAnswer(info)
             .then(() => {
-                console.log('saving...')
                 dispatch(saveAnswerToUser({authedUser, users, 
                     qid, answer}))
                 dispatch(saveAnswerToQuestion({authedUser, questions,

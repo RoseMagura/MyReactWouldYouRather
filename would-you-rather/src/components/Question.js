@@ -7,7 +7,7 @@ import Votes from './Votes'
 class Question extends Component {
     state = {
         choice: '',
-        submitted: false
+        completed: false
     }
   handleChange = (e) => {
       this.setState({choice: e.target.value})
@@ -17,12 +17,10 @@ class Question extends Component {
     const other = answer === 'optionOne'
       ? questions[qid]['optionTwo']
       : questions[qid]['optionOne']
-    //   const total = 5
     const total = chosen['votes'] !== undefined &&
         other['votes'] !== undefined &&
         chosen['votes'].length + other['votes'].length
-    // console.log('chosen length: ', chosen['votes'])
-    // return(<Votes chosen={chosen} other={other} total={total} />)
+    return(<Votes chosen={chosen} other={other} total={total} />)
 }       
   handleSubmit = (e) => {
       e.preventDefault()
@@ -31,8 +29,10 @@ class Question extends Component {
       const answer = this.state.choice
       dispatch(handleSaveAnswer(authedUser, qid, answer, 
                                 users, questions))
-                                .then(this.setState({submitted: true}))
-                                // .then(this.showResults(answer, questions, qid))                                                
+                        .then(console.log(questions[qid][answer]))                          
+                                // .then(this.setState({submitted: true}))
+                                // .then(console.log(
+                                //     this.showResults(answer, questions, qid)))                                                
   }
   render() {
     const { questions, users } = this.props
@@ -94,10 +94,11 @@ class Question extends Component {
                         </div>                  
                     </form>
                     </div>
-                    <div>
+                    {/* <div>
                         {this.state.submitted && 
+                            console.log(this.state.submitted) &&
                             this.showResults(answer, questions, id)}
-                    </div>
+                    </div> */}
                 </div>        
     )
   }
