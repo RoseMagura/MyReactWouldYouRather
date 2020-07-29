@@ -16,16 +16,15 @@ export default function questions (state = {}, action) {
                     ...action.question
                 }
             }    
-        case SAVE_ANSWER_TO_QUESTION :
-            // console.log('chosen option', action.questions
-            //     [action.qid][action.answer])  
-            // console.log('other option', action.questions
-            //     [action.qid][!action.answer])                   
+        case SAVE_ANSWER_TO_QUESTION :   
+            console.log(action.questions[action.qid][action.answer]['votes'])
             return {
                 ...state,
                 [action.qid] : {
                     ...state[action.qid],
-                    [action.answer]: {'votes': [action.authedUser],
+                    [action.answer]: {'votes': 
+                    action.questions[action.qid][action.answer]['votes']
+                            .concat([action.authedUser]),
                          text: action.questions
                          [action.qid][action.answer]['text']}
                 }} 

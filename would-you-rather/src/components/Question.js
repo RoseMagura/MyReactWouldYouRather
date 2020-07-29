@@ -1,29 +1,44 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-// import { format , formatDate } from '../utils/helpers';
-// import { Link, withRouter} from 'react-router-dom'
 import { handleSaveAnswer } from '../actions/shared';
 import Nav from './Nav'
+import Votes from './Votes'
 
 class Question extends Component {
     state = {
-        choice: ''
+        choice: '',
+        submitted: false
     }
   handleChange = (e) => {
       this.setState({choice: e.target.value})
   }  
+  showResults = (answer, questions, qid) => {
+    const chosen = questions[qid][answer]
+    const other = answer === 'optionOne'
+      ? questions[qid]['optionTwo']
+      : questions[qid]['optionOne']
+    //   const total = 5
+    const total = chosen['votes'] !== undefined &&
+        other['votes'] !== undefined &&
+        chosen['votes'].length + other['votes'].length
+    // console.log('chosen length: ', chosen['votes'])
+    // return(<Votes chosen={chosen} other={other} total={total} />)
+}       
   handleSubmit = (e) => {
       e.preventDefault()
-      console.log('submit')
       const qid = this.props.location.pathname.split('/').pop()
       const { dispatch, authedUser, users, questions } = this.props
       const answer = this.state.choice
       dispatch(handleSaveAnswer(authedUser, qid, answer, 
                                 users, questions))
+                                .then(this.setState({submitted: true}))
+                                // .then(this.showResults(answer, questions, qid))                                                
   }
   render() {
     const { questions, users } = this.props
     const id = this.props.location.pathname.split('/').pop()
+    const answer = this.state.choice
+
     const question = questions[id]
     if (question === undefined) {
         return <p>error</p>
@@ -78,6 +93,10 @@ class Question extends Component {
                             </button>
                         </div>                  
                     </form>
+                    </div>
+                    <div>
+                        {this.state.submitted && 
+                            this.showResults(answer, questions, id)}
                     </div>
                 </div>        
     )
