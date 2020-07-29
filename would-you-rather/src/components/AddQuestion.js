@@ -31,7 +31,7 @@ class AddQuestion extends Component {
         this.setState(() => ({
             optionOneText: '',
             optionTwoText: '',
-            toHome: id ? false : true
+            // toHome: id ? false : true
         }))
     }
     render(){

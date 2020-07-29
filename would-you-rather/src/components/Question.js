@@ -1,73 +1,96 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { format , formatDate } from '../utils/helpers';
-import { Link, withRouter} from 'react-router-dom'
-// import Nav from './Nav'
+// import { format , formatDate } from '../utils/helpers';
+// import { Link, withRouter} from 'react-router-dom'
+import { handleSaveAnswer } from '../actions/shared';
+import Nav from './Nav'
 
 class Question extends Component {
-  handleVote = (e) => {
+    state = {
+        choice: ''
+    }
+  handleChange = (e) => {
+      this.setState({choice: e.target.value})
+  }  
+  handleSubmit = (e) => {
       e.preventDefault()
-
-      const { dispatch, question, authedUser } = this.props
-      
-    // todo: _saveQuestionAnswer ({ authedUser, qid, answer }) in action
+      console.log('submit')
+      const qid = this.props.location.pathname.split('/').pop()
+      const { dispatch, authedUser, users, questions } = this.props
+      const answer = this.state.choice
+      dispatch(handleSaveAnswer(authedUser, qid, answer, 
+                                users, questions))
   }
   render() {
-    const { question } = this.props
-    // console.log(question)
-
+    const { questions, users } = this.props
+    const id = this.props.location.pathname.split('/').pop()
+    const question = questions[id]
+    if (question === undefined) {
+        return <p>error</p>
+    }
     if (question === null){
         return <p>This question doesn't exist</p>
     }
-
-    const {
-        name, avatar, timestamp, optionOne,
-        optionTwo, authedUser, id
-    } = question
+    const author = question['author']
+    const formattedAuthor = users[author]['name']
+    const avatar = users[author]['avatarURL']
     return (
-            <Link to={`/question/${id}`}className='question'>
-                <img
-                    width='100'
-                    height='100' 
-                    src={avatar}
-                    alt={`Avatar of ${name}`}
-                    className='avatar'
-                    />
+        <div>
+            <Nav /> 
                 <div className='question-info'>
-                    <div>
-                        <span>{name}</span>
-                        <div>{formatDate(timestamp)}</div>
-                        <div>
-                            {optionOne.text} 
-                            Votes: {optionOne.votes.length > 0 
-                                ? optionOne.votes.map((user) => (
-                                    <p key={user}> {user} </p>
-                                ))
-                                : '0'}
+                    <span>{formattedAuthor} asks:</span><br/>
+                    <img 
+                        width='100'
+                        height='100' 
+                        src={avatar}
+                        alt={`Avatar of ${formattedAuthor}`}
+                        className='avatar'
+                        />
+                    <h2>Would You Rather...</h2>           
+                    <form>
+                        <div className='form-check'> 
+                            <label>
+                            <input 
+                                type='radio'
+                                name='voting-group'
+                                value='optionOne'
+                                className='form-check-input'
+                                onChange={this.handleChange}/>    
+                                {question['optionOne']['text']}
+                            </label>
                         </div>
-                        <div>
-                            {optionTwo.text}
-                            Votes: {optionTwo.votes.length > 0 
-                                ? optionTwo.votes.map((user) => (
-                                    <p key={user}> {user} </p>
-                                ))
-                                : '0'}
-                        </div>
+                        <div className='form-check'> 
+                            <label>
+                            <input 
+                                type='radio'
+                                name='voting-group'
+                                value='optionTwo'
+                                className='form-check-input'
+                                onChange={this.handleChange}/>    
+                                {question['optionTwo']['text']}
+                            </label>
+                        </div>      
+                        <div className='form-group'>
+                          <button className='form-submit' 
+                                    type='submit'
+                                    onClick={this.handleSubmit}>
+                                Submit
+                            </button>
+                        </div>                  
+                    </form>
                     </div>
                 </div>        
-            </Link>
     )
   }
 }
 
-function mapStateToProps ({ authedUser, users, questions }, { id }) {
-    const question = questions[id]
+function mapStateToProps ({ dispatch, authedUser, questions, users }) {
     return {
+        dispatch,
         authedUser,
+        questions,
+        users,
         loading: questions === null,
-        question: question
-            ? format(question, users[question.author], authedUser)
-            : null
     }
   }
   

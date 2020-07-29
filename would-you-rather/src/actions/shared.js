@@ -1,8 +1,10 @@
 import { _getUsers } from '../utils/_DATA.js'
-import { _getQuestions, formatQuestion, _saveQuestion } from '../utils/_DATA.js'
+import { _getQuestions, formatQuestion, _saveQuestion, 
+        _saveQuestionAnswer } from '../utils/_DATA.js'
 import { setAuthedUser } from './authedUser'
-import { receiveQuestions } from './questions'
-import { receiveUsers } from './users'
+import { receiveQuestions, addQuestion, saveAnswerToQuestion,
+         } from './questions'
+import { receiveUsers, saveAnswerToUser } from './users'
 
 
 export function handleUserData () {
@@ -32,5 +34,30 @@ export function handleInitialUser () {
 export function setLoggedInUser (value) {
     return (dispatch) => {
         dispatch(setAuthedUser(value))
+    }
+}
+
+export function handleAddQuestion (question) {
+    return (dispatch) => {
+        return _saveQuestion(question) 
+            .then(() => {
+                dispatch(addQuestion(question))
+            })
+    }
+}
+
+export function handleSaveAnswer (authedUser,qid, answer, users, 
+    questions) {
+    return (dispatch) => {
+        const info = {authedUser, qid, answer}
+        // console.log(info, 'sending to back end')
+        return _saveQuestionAnswer(info)
+            .then(() => {
+                console.log('saving...')
+                dispatch(saveAnswerToUser({authedUser, users, 
+                    qid, answer}))
+                dispatch(saveAnswerToQuestion({authedUser, questions,
+                    qid, answer}))
+            })
     }
 }

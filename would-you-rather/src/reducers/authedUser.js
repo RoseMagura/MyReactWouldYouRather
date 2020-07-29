@@ -4,8 +4,8 @@ export default function authedUser (state = null, action) {
     switch(action.type) {
         case SET_AUTHED_USER : 
             return action.id
-        case GET_AUTHED_USER :
-            return ''    
+        // case GET_AUTHED_USER :
+        //     return ''    
         default : 
             return state    
     }
