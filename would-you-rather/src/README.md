@@ -22,7 +22,9 @@
     Users can view their unanswered and answered questions after logging 
     in. From the main page, users can easily post new questions, vote on
     current questions, and view questions in more detail. The Nav is 
-    visible on every page, and makes it easy to navigate to the different pages. There's also a leaderboard page, which shows the user rankings (how many questions created, how many answered, etc.).
+    visible on every page, and makes it easy to navigate to the different pages. 
+    There's also a leaderboard page, which shows the user rankings 
+    (how many questions created, how many answered, etc.).
     If you accidentally try to access a page that doesn't exist, you
     will see a helpful 404 error message. 
 
