@@ -1,5 +1,5 @@
 import { _getUsers } from '../utils/_DATA.js'
-import { _getQuestions, formatQuestion, _saveQuestion, 
+import { _getQuestions, _saveQuestion, 
         _saveQuestionAnswer } from '../utils/_DATA.js'
 import { setAuthedUser } from './authedUser'
 import { receiveQuestions, addQuestion, saveAnswerToQuestion,
@@ -55,7 +55,7 @@ export function handleSaveAnswer (authedUser, qid, answer, users,
                 dispatch(saveAnswerToUser({authedUser, users, 
                     qid, answer}))
                 dispatch(saveAnswerToQuestion({authedUser, questions,
-                    qid, answer}))
-            })
+                    qid, answer}))  
+            }).then(() => questions)
     }
 }

@@ -1,8 +1,5 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { handleUserData, handleQuestionData, 
-         getAgain } from '../actions/shared';
-import { getAuthedUser } from '../actions/authedUser';    
+import { connect } from 'react-redux';  
 import QuestionList from './QuestionList';     
 import Nav from './Nav';
 

@@ -1,20 +1,29 @@
 import React, { Component } from 'react';
-// import { connect } from 'react-redux';
-import Nav from './Nav'
 
 class Votes extends Component {
     render() {
-        console.log(this.props)
-        const { chosen, total, other } = this.props
+        const { chosen, total, other, author } = this.props
+        const chosenLength = chosen['votes'].length
+        const otherLength = other['votes'].length
+        const chosenPercentage = (chosenLength/total * 100).toFixed(1)
+        const otherPercentage = (otherLength/total * 100).toFixed(1)
         return (
-            // <div>
-            //     Votes
-            // </div>
             <div>
-            {chosen['text']}: {chosen['votes'].length } out of 
-             {total} votes <br/>
-            {other['text']}: {other['votes'].length} out of 
-             {total} votes
+                <h1>Asked by {author['name']}</h1>
+                <img 
+                    width='100'
+                    height='100' 
+                    src={author['avatarURL']}
+                    alt={`Avatar of ${author['name']}`}
+                    className='avatar'
+                    />
+                <h2>Results:</h2>
+                    <p>{chosen['text']}: {chosenLength } out of {total} 
+                    {total > 1 ? ` votes` : ` vote `} / {` `}
+                    {chosenPercentage}% (Your Vote) <br/></p>
+                    <p>{other['text']}: {otherLength} out of {total} 
+                    {total > 1 ? ` votes` : ` vote `} / {` `}
+                    {otherPercentage}%</p>
             </div>
         )
     }

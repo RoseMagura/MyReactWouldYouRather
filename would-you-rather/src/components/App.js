@@ -33,12 +33,11 @@ class App extends Component {
                             ? <div>Still loading</div>
                             : <div>
                                 <Switch>
-                                <Route path='/login' exact component={Login} />
+                                <Route path='/login' exact 
+                                    component={Login} />
                                 <PrivateRoute component={Homepage} 
                                     authedUser={authedUser}
                                     path="/" exact />
-                                {/* <Route path='/question/:id'
-                                     exact component={Question} /> */}
                                 <PrivateRoute 
                                     exact path="/question/:id"
                                     component={Question}

@@ -12,17 +12,25 @@ class Login extends Component {
     handleLogin = (e) => {
         const { dispatch, history } = this.props
         dispatch(setLoggedInUser(this.state.selected.value))
-        history.push('/')
+        // check previous location: 
+        const state = this.props.location.state
+        state === null 
+            ? history.push('/')
+            : history.push(`${state.source.split(0)[3]}`)
+        
     }
     updateState(element) {
         this.setState({authUser: element})
         this.setState({selected: element})
     }
+    componentDidMount() {
+        this.props.dispatch(setLoggedInUser(null))
+    }
     render(){
         const optionsArray = []
         this.props.usersIds.forEach(element => {
             optionsArray.push({ value: element,
-                                label: element})
+                                label: element,})
         })
         return (
             <div>

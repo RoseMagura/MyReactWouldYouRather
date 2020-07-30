@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { format , formatDate } from '../utils/helpers';
-import { Link, withRouter} from 'react-router-dom'
-// import Nav from './Nav'
+import { format } from '../utils/helpers';
+import { Link} from 'react-router-dom'
 
 class QuestionPreview extends Component {
   render() {
@@ -10,9 +9,7 @@ class QuestionPreview extends Component {
     if (question === null){
         return <p>This question doesn't exist</p>
     }
-    const {
-        name, avatar, optionOne, id
-    } = question
+    const { name, avatar, optionOne, id } = question
     return (
             <div>
                  <img
@@ -43,7 +40,6 @@ function mapStateToProps ({ authedUser, users, questions }, { id }) {
     const question = questions[id]
     return {
         authedUser,
-        loading: questions === null,
         question: question
             ? format(question, users[question.author], authedUser)
             : null

@@ -28,7 +28,6 @@ class AddQuestion extends Component {
             author: authedUser})
         
         dispatch(addQuestion(question))    
-        // console.log('what is the value of id?', question['id'])
         const qid = question['id']
         dispatch(addQuestionToUser({authedUser, users, qid}))
             
@@ -48,17 +47,20 @@ class AddQuestion extends Component {
                 <Nav />
                 <h3>Create New Question</h3>
                 <h4>Would you rather: </h4>
-                <form className='new-question' onSubmit={this.handleSubmit}>
+                <form className='new-question' 
+                    onSubmit={this.handleSubmit}>
                     <textarea
                         placeholder="Option One" 
                         value={optionOneText}
-                        onChange={(e)=>this.handleChange(e, 'optionOneText')}
+                        onChange={(e)=>this.handleChange(e, 
+                                        'optionOneText')}
                         className='textarea'/>
                     <h4>OR</h4>    
                     <textarea 
                         placeholder="Option Two"
                         value={optionTwoText}
-                        onChange={(e)=>this.handleChange(e, 'optionTwoText')}
+                        onChange={(e)=>this.handleChange(e, 
+                                        'optionTwoText')}
                         />
                     <button
                         className='btn'

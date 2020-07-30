@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import QuestionPreview from './QuestionPreview';
 import '../QuestionListStyles.css';
 
-class QuestionList extends React.Component {
+class QuestionList extends Component {
     state = {
         open: this.props.info[1] === 'Unanswered' ? 'active' : 'inactive'
     }
@@ -15,7 +15,6 @@ class QuestionList extends React.Component {
 
     render() {
         const questions = this.props.info[0]
-        const type = this.props.info[1]
         return(
             <div>
                 <ul className='content'>
@@ -25,7 +24,6 @@ class QuestionList extends React.Component {
                         </li>
                         ))}
                 </ul>   
-               
             </div>
         )
     }

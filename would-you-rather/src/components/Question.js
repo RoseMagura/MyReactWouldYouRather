@@ -12,15 +12,23 @@ class Question extends Component {
   handleChange = (e) => {
       this.setState({choice: e.target.value})
   }  
-  showResults = (answer, questions, qid) => {
+  setInitialChoice = (id) => {
+    const { users, authedUser } = this.props
+    const selected = users[authedUser]['answers'][id]
+    selected !== undefined && this.setState({choice: selected})    
+  }
+  showResults = (answer, questions, qid, users) => {
     const chosen = questions[qid][answer]
+    const username = questions[qid]['author']
+    const author = users[username]
     const other = answer === 'optionOne'
       ? questions[qid]['optionTwo']
       : questions[qid]['optionOne']
     const total = chosen['votes'] !== undefined &&
         other['votes'] !== undefined &&
         chosen['votes'].length + other['votes'].length
-    return(<Votes chosen={chosen} other={other} total={total} />)
+    return(<Votes author={author}
+                  chosen={chosen} other={other} total={total} />)
 }       
   handleSubmit = (e) => {
       e.preventDefault()
@@ -29,22 +37,21 @@ class Question extends Component {
       const answer = this.state.choice
       dispatch(handleSaveAnswer(authedUser, qid, answer, 
                                 users, questions))
-                        .then(console.log(questions[qid][answer]))                          
-                                // .then(this.setState({submitted: true}))
-                                // .then(console.log(
-                                //     this.showResults(answer, questions, qid)))                                                
+  }
+  componentDidMount() {
+      const id = this.props.location.pathname.split('/').pop()
+      this.setInitialChoice(id)
   }
   render() {
-    const { questions, users } = this.props
+    const { questions, users, authedUser } = this.props
     const id = this.props.location.pathname.split('/').pop()
     const answer = this.state.choice
+    const userHasAnswered = Object.keys(users[authedUser]['answers'])
+        .includes(id)
 
     const question = questions[id]
-    if (question === undefined) {
-        return <p>error</p>
-    }
-    if (question === null){
-        return <p>This question doesn't exist</p>
+    if (question === undefined){
+        return <div> <Nav /> <h3>404 - Not found</h3></div>
     }
     const author = question['author']
     const formattedAuthor = users[author]['name']
@@ -52,7 +59,11 @@ class Question extends Component {
     return (
         <div>
             <Nav /> 
-                <div className='question-info'>
+            {userHasAnswered 
+                ? <div>{answer !== '' 
+                        && this.showResults(
+                            answer, questions, id, users)}</div>
+                : <div className='question-info'>
                     <span>{formattedAuthor} asks:</span><br/>
                     <img 
                         width='100'
@@ -61,7 +72,7 @@ class Question extends Component {
                         alt={`Avatar of ${formattedAuthor}`}
                         className='avatar'
                         />
-                    <h2>Would You Rather...</h2>           
+                    <h2>Would You Rather...</h2>     
                     <form>
                         <div className='form-check'> 
                             <label>
@@ -94,11 +105,7 @@ class Question extends Component {
                         </div>                  
                     </form>
                     </div>
-                    {/* <div>
-                        {this.state.submitted && 
-                            console.log(this.state.submitted) &&
-                            this.showResults(answer, questions, id)}
-                    </div> */}
+                    }
                 </div>        
     )
   }
@@ -110,7 +117,6 @@ function mapStateToProps ({ dispatch, authedUser, questions, users }) {
         authedUser,
         questions,
         users,
-        loading: questions === null,
     }
   }
   
