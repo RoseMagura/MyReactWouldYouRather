@@ -9,6 +9,7 @@ class Question extends Component {
         choice: '',
         completed: false
     }
+
   handleChange = (e) => {
       this.setState({choice: e.target.value})
   }  
@@ -33,7 +34,7 @@ class Question extends Component {
   handleSubmit = (e) => {
       e.preventDefault()
       const qid = this.props.location.pathname.split('/').pop()
-      const { dispatch, authedUser, users, questions } = this.props
+      const { authedUser, users, questions, dispatch } = this.props
       const answer = this.state.choice
       dispatch(handleSaveAnswer(authedUser, qid, answer, 
                                 users, questions))

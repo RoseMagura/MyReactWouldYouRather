@@ -1,8 +1,7 @@
-import React, { Component } from 'react';
+import React from 'react';
 
-class Votes extends Component {
-    render() {
-        const { chosen, total, other, author } = this.props
+const Votes = (props) => {
+        const { chosen, total, other, author } = props
         const chosenLength = chosen['votes'].length
         const otherLength = other['votes'].length
         const chosenPercentage = (chosenLength/total * 100).toFixed(1)
@@ -26,7 +25,6 @@ class Votes extends Component {
                     {otherPercentage}%</p>
             </div>
         )
-    }
 }
 
 export default Votes

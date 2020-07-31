@@ -4,7 +4,7 @@ import '../QuestionListStyles.css';
 
 class QuestionList extends Component {
     state = {
-        open: this.props.info[1] === 'Unanswered' ? 'active' : 'inactive'
+        open: false
     }
     togglePanel() {
         this.setState(prevState => prevState === 'active' 
@@ -12,7 +12,11 @@ class QuestionList extends Component {
         : this.setState({open: 'active'})
         )
     }
-
+    static getDerivedStateFromProps(props, state) {
+        return {
+            open: props.info[1]=== 'Unanswered' ? 'active' : 'inactive'
+        }
+    }
     render() {
         const questions = this.props.info[0]
         return(

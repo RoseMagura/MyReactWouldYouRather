@@ -14,9 +14,9 @@ class Login extends Component {
         dispatch(setLoggedInUser(this.state.selected.value))
         // check previous location: 
         const state = this.props.location.state
-        state === null 
+        state === undefined 
             ? history.push('/')
-            : history.push(`${state.source.split(0)[3]}`)
+            : history.push(state.source['pathname'])
         
     }
     updateState(element) {

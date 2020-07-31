@@ -6,11 +6,14 @@
     React Nanodegree. This is a fun website that allows users to post
     polls, vote, and compete with other users. 
 
-## How to Run
+## How to Install
 
-    Just clone the git repository, run `npm install` and `npm start` or
-    with yarn commands. The login page will automatically open in the
-    default browser. 
+    Just clone the git repository, run `npm install` (or use yarn) to install the project dependencies.
+
+## How to Run
+    
+    Run `npm start` in a terminal to start the project.
+    The login page will automatically open in the default browser. 
 
     Note that the user must be logged in as one of the registered users
     in order to use the different features. If you try to manually 
